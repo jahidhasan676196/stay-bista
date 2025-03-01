@@ -81,6 +81,13 @@ const handleLogOut=()=>{
 
                     {user ? (
                       <>
+                      
+                        <Link
+                        to="/dashboard/statistics"
+                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
+                        >
+                          Dashboard
+                        </Link>
                         <button
                           onClick={handleLogOut}
                           className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
