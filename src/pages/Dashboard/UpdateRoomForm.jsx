@@ -53,18 +53,21 @@ const UpdateRoomForm = () => {
         console.log(res.data.data.url);
         const info = { location, title, category, image: res.data.data.url, price, guests,host, bedrooms, bathrooms, description, to, from }
         if (res.data.data.url) {
-            const res = await axiosCommon.post('/rooms', info)
-            console.log(res.data.insertedId);
-            if(res.data.insertedId){
+            const res = await axiosCommon.put(`/rooms/${params?.id}`, info)
+            console.log(res.data.modifiedCount);
+            if(res.data.modifiedCount >0){
                 Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Room added sucessfully",
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-                  form.reset()
+                            position: "center",
+                            icon: "success",
+                            title: "Room update sucessfully",
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
             }
+            // if(res.data.insertedId){
+            // 
+            //       form.reset()
+            // }
 
         }
     }
@@ -130,6 +133,7 @@ const UpdateRoomForm = () => {
                             <input
                                 className='w-full px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 rounded-md '
                                 name='title'
+                                defaultValue={room?.title}
                                 id='title'
                                 type='text'
                                 placeholder='Title'
@@ -144,6 +148,7 @@ const UpdateRoomForm = () => {
                                         <input
                                             className='text-sm cursor-pointer w-36 hidden'
                                             type='file'
+                                            defaultValue={room?.image}
                                             name='image'
                                             id='image'
                                             accept='image/*'
@@ -164,6 +169,7 @@ const UpdateRoomForm = () => {
                                 <input
                                     className='w-full px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 rounded-md '
                                     name='price'
+                                    defaultValue={room?.price}
                                     id='price'
                                     type='number'
                                     placeholder='Price'
@@ -179,6 +185,7 @@ const UpdateRoomForm = () => {
                                     className='w-full px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 rounded-md '
                                     name='total_guest'
                                     id='guest'
+                                    defaultValue={room?.guests}
                                     type='number'
                                     placeholder='Total guest'
                                     required
@@ -195,6 +202,7 @@ const UpdateRoomForm = () => {
                                     className='w-full px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 rounded-md '
                                     name='bedrooms'
                                     id='bedrooms'
+                                    defaultValue={room?.bedrooms}
                                     type='number'
                                     placeholder='Bedrooms'
                                     required
@@ -209,6 +217,7 @@ const UpdateRoomForm = () => {
                                     className='w-full px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 rounded-md '
                                     name='bathrooms'
                                     id='bathrooms'
+                                    defaultValue={room?.bathrooms}
                                     type='number'
                                     placeholder='Bathrooms'
                                     required
@@ -223,6 +232,7 @@ const UpdateRoomForm = () => {
 
                             <textarea
                                 id='description'
+                                defaultValue={room?.description}
                                 className='block rounded-md focus:rose-300 w-full h-32 px-4 py-3 text-gray-800  border border-rose-300 focus:outline-rose-500 '
                                 name='description'
                             ></textarea>

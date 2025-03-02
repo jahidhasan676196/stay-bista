@@ -8,8 +8,6 @@ import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 const AddRoomForm = () => {
     const {user}=useAuth()
-    console.log(user);
-    // const axiosSecure=useAxiosSecure()
     const axiosCommon = useAxiosCommon()
     const [state, setState] = useState([
         {
@@ -40,7 +38,7 @@ const AddRoomForm = () => {
         const info = { location, title, category, image: res.data.data.url, price, guests,host, bedrooms, bathrooms, description, to, from }
         if (res.data.data.url) {
             const res = await axiosCommon.post('/rooms', info)
-            console.log(res.data.insertedId);
+ 
             if(res.data.insertedId){
                 Swal.fire({
                     position: "center",
@@ -55,13 +53,14 @@ const AddRoomForm = () => {
         }
     }
 
-    // console.log(state[0].startDate);
-    // console.log(state[0].endDate);
+
     return (
         <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50 mx-auto'>
             <form onSubmit={handleAddroom}>
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
                     <div className='space-y-6'>
+                        {/* <p>image:{img.name}</p>
+                        <img src={img.name} alt="" /> */}
                         <div className='space-y-1 text-sm'>
                             <label htmlFor='location' className='block text-gray-600'>
                                 Location
