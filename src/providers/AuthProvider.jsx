@@ -13,11 +13,13 @@ import {
 } from 'firebase/auth'
 import { app } from '../firebase/firebase.config'
 import axios from 'axios'
+import useAxiosCommon from '../hooks/useAxiosCommon'
 export const AuthContext = createContext(null)
 const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
 
 const AuthProvider = ({ children }) => {
+  const axiosCommon=useAxiosCommon()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -64,12 +66,26 @@ const AuthProvider = ({ children }) => {
     )
     return data
   }
+  const createNewUser=async(currentUser)=>{
+    console.log(currentUser);
+    const userInfo={
+      email: currentUser?.email,
+      name:currentUser?.displayName,
+      role:'host',
+      status:'varified'
+
+    }
+    const res=await axiosCommon.post(`/user/${currentUser?.email}`,userInfo)
+    console.log(res.data);
+    
+  }
 
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser)
       if (currentUser) {
+        createNewUser(currentUser)
         getToken(currentUser.email)
       }
       setLoading(false)

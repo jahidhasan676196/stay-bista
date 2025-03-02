@@ -4,10 +4,13 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 import useAuth from '../../../hooks/useAuth'
+import useRole from '../../../hooks/useRole'
 
 const Navbar = () => {
   const { user,setUser ,logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
+  const [role]=useRole()
+  console.log(role);
 const handleLogOut=()=>{
   logOut()
   .then(()=>{
@@ -21,6 +24,7 @@ const handleLogOut=()=>{
   
 
 }
+
   return (
     <div className='fixed w-full bg-white z-10 shadow-sm'>
       <div className='py-4 border-b-[1px]'>
