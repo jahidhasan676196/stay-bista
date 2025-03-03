@@ -1,11 +1,16 @@
 import { Helmet } from 'react-helmet-async'
-import useMyListing from '../../hooks/useMyListing'
 import RoomDataRow from '../../components/DashboardComponents/RoomDataRow';
+import useMyListing from '../../hooks/useMyListing';
+import useRole from '../../hooks/useRole';
+
+
+
 
 const MyListings = () => {
     const [listing,refetch]=useMyListing()
     console.log(listing);
-  
+    const [role]=useRole()
+    console.log(role);
   return (
     <>
       <Helmet>

@@ -11,6 +11,8 @@ import HostStatistics from '../pages/Dashboard/HostStatistics'
 import Addroom from '../pages/Dashboard/Addroom'
 import MyListings from '../pages/Dashboard/MyListing'
 import UpdateRoomForm from '../pages/Dashboard/UpdateRoomForm'
+import UserManagements from '../pages/Dashboard/UserManagements'
+import Profile from '../pages/Dashboard/Profile'
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +49,14 @@ export const router = createBrowserRouter([
       {
         path:'my-listings',
         element:<MyListings></MyListings>
+      },
+      {
+        path:'user-management',
+        element:<UserManagements></UserManagements>
+      },
+      {
+        path:'profile',
+        element:<Profile></Profile>
       }
     ]
   },

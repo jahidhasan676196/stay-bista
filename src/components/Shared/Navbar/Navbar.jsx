@@ -4,17 +4,18 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 import useAuth from '../../../hooks/useAuth'
-import useRole from '../../../hooks/useRole'
+
 import useAxiosCommon from '../../../hooks/useAxiosCommon'
 import Swal from 'sweetalert2'
+import useRole from '../../../hooks/useRole'
 
 
 const Navbar = () => {
   const { user,setUser ,logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
-  const axiosCommon=useAxiosCommon()
   const [role]=useRole()
-  console.log(role);
+  const axiosCommon=useAxiosCommon()
+  
 const handleLogOut=()=>{
   logOut()
   .then(()=>{
@@ -72,7 +73,7 @@ const handleHost=async()=>{
               <div className='flex flex-row items-center gap-3'>
                 {/* Become A Host btn */}
                 <div className='hidden md:block'>
-                  {(user && role=='guest') && (
+                  {(user && role==='guest')  && (
                     <button
                     onClick={handleHost}
                       disabled={!user}
