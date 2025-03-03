@@ -71,7 +71,7 @@ const AuthProvider = ({ children }) => {
     const userInfo={
       email: currentUser?.email,
       name:currentUser?.displayName,
-      role:'host',
+      role:'guest',
       status:'varified'
 
     }

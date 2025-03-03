@@ -5,6 +5,7 @@ import RoomDataRow from '../../components/DashboardComponents/RoomDataRow';
 const MyListings = () => {
     const [listing,refetch]=useMyListing()
     console.log(listing);
+  
   return (
     <>
       <Helmet>

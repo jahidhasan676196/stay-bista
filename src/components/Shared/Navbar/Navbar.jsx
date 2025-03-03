@@ -5,10 +5,14 @@ import { Link } from 'react-router-dom'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 import useAuth from '../../../hooks/useAuth'
 import useRole from '../../../hooks/useRole'
+import useAxiosCommon from '../../../hooks/useAxiosCommon'
+import Swal from 'sweetalert2'
+
 
 const Navbar = () => {
   const { user,setUser ,logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
+  const axiosCommon=useAxiosCommon()
   const [role]=useRole()
   console.log(role);
 const handleLogOut=()=>{
@@ -23,6 +27,29 @@ const handleLogOut=()=>{
   })
   
 
+}
+const handleHost=async()=>{
+  const info={
+    status:'requested'
+  }
+  const res=await axiosCommon.patch(`/user/${user?.email}`,info)
+  console.log(res.data.modifiedCount >0);
+  if(res.data.modifiedCount > 0){
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Your request is pending",
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+  else{
+    Swal.fire({
+      icon: "error",
+      title: "Please wait admin aproved",
+      text: "Something went wrong!"
+    });
+  }
 }
 
   return (
@@ -45,8 +72,9 @@ const handleLogOut=()=>{
               <div className='flex flex-row items-center gap-3'>
                 {/* Become A Host btn */}
                 <div className='hidden md:block'>
-                  {!user && (
+                  {(user && role=='guest') && (
                     <button
+                    onClick={handleHost}
                       disabled={!user}
                       className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'
                     >
