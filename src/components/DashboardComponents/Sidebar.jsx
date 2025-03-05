@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import CustomNavLink from './CustomNavLink'
 import useRole from '../../hooks/useRole'
+import ToggleBtn from './ToggleBtn'
 const Sidebar = () => {
   const { logOut } = useAuth()
   const [isActive, setActive] = useState(false)
@@ -79,10 +80,10 @@ const Sidebar = () => {
 
             {/*  Menu Items */}
             <nav>
+              {role==='host' &&  <ToggleBtn></ToggleBtn>}
               {/* Statistics */}
               <CustomNavLink path='/dashboard/statistics' elements='Statistics' icon={BsGraphUp}></CustomNavLink>
               {role === 'host' && <div>
-
                 {/* Add Room */}
                 <CustomNavLink path='add-room' elements='Add Room' icon={BsFillHouseAddFill}></CustomNavLink>
                 {/* My Listing */}

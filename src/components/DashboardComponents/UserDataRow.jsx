@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types'
 import Swal from 'sweetalert2';
 import useAxiosCommon from '../../hooks/useAxiosCommon';
+import useRole from '../../hooks/useRole';
 const UserDataRow = ({ user, refetch }) => {
     const axiosCommon=useAxiosCommon()
+    const [role]=useRole()
     const handleUpdateUser=async(id)=>{
         console.log(id);
         const { value: role } = await Swal.fire({
@@ -59,7 +61,7 @@ const UserDataRow = ({ user, refetch }) => {
       </td>
 
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <button onClick={()=>handleUpdateUser(user?._id)} className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
+        <button disabled={user?.role==='admin'} onClick={()=>handleUpdateUser(user?._id)} className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
           <span
             aria-hidden='true'
             className='absolute inset-0 bg-green-200 opacity-50 rounded-full'

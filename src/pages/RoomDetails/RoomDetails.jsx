@@ -4,22 +4,24 @@ import RoomReservation from '../../components/RoomDetails/RoomReservation'
 import Heading from '../../components/Shared/Heading'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import useAxiosCommon from '../../hooks/useAxiosCommon'
+// import useAxiosCommon from '../../hooks/useAxiosCommon'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
 
 // single room object (Fake Data)
 
 
 const RoomDetails = () => {
   const [room,setRoom]=useState(null)
-  const axiosCommon=useAxiosCommon()
+  // const axiosCommon=useAxiosCommon()
+  const axiosSecure=useAxiosSecure()
   const params=useParams()
   useEffect(()=>{
-    axiosCommon.get(`room/${params.id}`)
+    axiosSecure.get(`/room/${params.id}`)
     .then(res=>{
       console.log(res.data);
       setRoom(res.data)
     })
-  },[axiosCommon,params])
+  },[axiosSecure,params])
   return (
     <Container>
       <Helmet>

@@ -47,6 +47,7 @@ const AuthProvider = ({ children }) => {
     // await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
     //   withCredentials: true,
     // })
+    localStorage.removeItem('token')
     return signOut(auth)
   }
 
@@ -60,10 +61,10 @@ const AuthProvider = ({ children }) => {
   const getToken = async email => {
     const { data } = await axios.post(
       `${import.meta.env.VITE_API_URL}/jwt`,
-      { email },
-      { withCredentials: true }
+      { email }
     )
-    return data
+    console.log(data);
+    localStorage.setItem('token',data)
   }
   const createNewUser=async(currentUser)=>{
     console.log(currentUser);
