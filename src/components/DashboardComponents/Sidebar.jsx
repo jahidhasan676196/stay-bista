@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { GrLogout } from 'react-icons/gr'
+import { GrLogout, GrUserManager } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
 import { BsFillHouseAddFill } from 'react-icons/bs'
 import { AiOutlineBars } from 'react-icons/ai'
@@ -13,20 +13,60 @@ import useAuth from '../../hooks/useAuth'
 import CustomNavLink from './CustomNavLink'
 import useRole from '../../hooks/useRole'
 import ToggleBtn from './ToggleBtn'
+import Swal from 'sweetalert2'
+// import useAxiosSecure from '../../hooks/useAxiosSecure'
+import useAxiosCommon from '../../hooks/useAxiosCommon'
 const Sidebar = () => {
   const { logOut } = useAuth()
   const [isActive, setActive] = useState(false)
   const [role] = useRole()
-  const navigate=useNavigate()
+  const navigate = useNavigate()
+  const { user } = useAuth()
+  // const axiosSecure = useAxiosSecure()
+  const axiosCommon = useAxiosCommon()
+
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive)
   }
-  const handleLogOut=()=>{
+  const handleLogOut = () => {
     logOut()
     navigate('/login')
 
+  }
+  const handleHostRequest = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to be a Host",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const info = { status: 'requested' }
+        const res = await axiosCommon.patch(`/user/updateRole/${user?.email}`, info)
+        console.log(res.data);
+        if (res.data.modifiedCount > 0) {
+          Swal.fire({
+            title: "Updated!",
+            text: "Your Content Update Successfull",
+            icon: "success"
+          });
+        }
+        else{
+          Swal.fire({
+            icon: "error",
+            title: "Wait admin aproved!!",
+            text: "Your request pending"
+          });
+        }
+
+      }
+    });
+    console.log('i am click');
   }
   return (
     <>
@@ -80,7 +120,7 @@ const Sidebar = () => {
 
             {/*  Menu Items */}
             <nav>
-              {role==='host' &&  <ToggleBtn></ToggleBtn>}
+              {role === 'host' && <ToggleBtn></ToggleBtn>}
               {/* Statistics */}
               <CustomNavLink path='/dashboard/statistics' elements='Statistics' icon={BsGraphUp}></CustomNavLink>
               {role === 'host' && <div>
@@ -92,7 +132,11 @@ const Sidebar = () => {
               {role === 'admin' && <div>
                 <CustomNavLink path='/dashboard/user-management' elements='User Managements' icon={FaUsers}></CustomNavLink>
               </div>}
-              
+              {
+                role === 'guest' && <div className='flex items-center gap-2 ml-1'>
+                  <GrUserManager />
+                  <button onClick={handleHostRequest} className='btn text-neutral-900 font-medium  text-base '>Become a Host</button></div>
+              }
 
             </nav>
           </div>
