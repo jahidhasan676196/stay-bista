@@ -1,3 +1,6 @@
+
+
+import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
 
@@ -16,5 +19,10 @@ const CustomNavLink = ({ path, elements, icon: Icon }) => {
     </NavLink>
   );
 };
+CustomNavLink.propTypes={
+  path:PropTypes.string,
+  elements:PropTypes.string,
+  icon:PropTypes.string
+}
 
 export default CustomNavLink;

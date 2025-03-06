@@ -15,6 +15,8 @@ import UserManagements from '../pages/Dashboard/UserManagements'
 import Profile from '../pages/Dashboard/Profile'
 import AdminRoutes from './AdminRoutes'
 import HostRoutes from './HostRoutes'
+import MyBooking from '../pages/Dashboard/MyBooking'
+import ManageBookings from '../pages/Dashboard/ManageBookings'
 
 export const router = createBrowserRouter([
   {
@@ -36,10 +38,21 @@ export const router = createBrowserRouter([
     path: '/dashboard',
     element: <DashboardLayout></DashboardLayout>,
     children: [
+      // all role be use
       {
         path: 'statistics',
         element: <PrivateRoute><HostStatistics></HostStatistics></PrivateRoute>
       },
+      // guest routes
+      {
+        path:'my-booking',
+        element:<MyBooking></MyBooking>
+      },
+      {
+        path:'manage-booking',
+        element:<ManageBookings></ManageBookings>
+      },
+      // host routes 
       {
         path: 'add-room',
         element: <PrivateRoute><HostRoutes><Addroom></Addroom></HostRoutes></PrivateRoute>
@@ -52,10 +65,12 @@ export const router = createBrowserRouter([
         path: 'my-listings',
         element: <PrivateRoute><HostRoutes> <MyListings></MyListings></HostRoutes></PrivateRoute>
       },
+      // admin routes
       {
         path: 'user-management',
         element: <PrivateRoute><AdminRoutes><UserManagements></UserManagements></AdminRoutes></PrivateRoute>
       },
+      // all routes use
       {
         path: 'profile',
         element: <PrivateRoute><Profile></Profile></PrivateRoute>

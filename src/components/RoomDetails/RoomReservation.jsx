@@ -3,8 +3,13 @@ import Button from '../Shared/Button/Button'
 import { useState } from 'react'
 import { DateRange } from 'react-date-range';
 import { differenceInCalendarDays } from 'date-fns';
+import ReservationDetails from './ReservationDetails';
 
 const RoomReservation = ({ room }) => {
+  let [isOpen, setIsOpen] = useState(false)
+  const handlemodalOpen=()=>{
+    setIsOpen(true)
+  }
   const [state, setState] = useState([
     {
       startDate:new Date(room?.from),
@@ -44,7 +49,8 @@ const RoomReservation = ({ room }) => {
 
       <hr />
       <div className='p-4'>
-        <Button label={'Reserve'} />
+        <Button onClick={handlemodalOpen} label={'Reserve'} />
+      <ReservationDetails isOpen={isOpen} setIsOpen={setIsOpen} room={room} totalnight={totalnight}></ReservationDetails>
       </div>
       <hr />
       <div className='p-4 flex items-center justify-between font-semibold text-lg'>

@@ -3,7 +3,7 @@ import { GrLogout, GrUserManager } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
 import { BsFillHouseAddFill } from 'react-icons/bs'
 import { AiOutlineBars } from 'react-icons/ai'
-import { MdHomeWork } from "react-icons/md";
+import { MdHomeWork, MdLibraryBooks } from "react-icons/md";
 import { BsGraphUp } from 'react-icons/bs'
 
 import { FaUsers } from "react-icons/fa";
@@ -16,6 +16,7 @@ import ToggleBtn from './ToggleBtn'
 import Swal from 'sweetalert2'
 // import useAxiosSecure from '../../hooks/useAxiosSecure'
 import useAxiosCommon from '../../hooks/useAxiosCommon'
+import { SiGoogletagmanager } from 'react-icons/si'
 const Sidebar = () => {
   const { logOut } = useAuth()
   const [isActive, setActive] = useState(false)
@@ -123,6 +124,10 @@ const Sidebar = () => {
               {role === 'host' && <ToggleBtn></ToggleBtn>}
               {/* Statistics */}
               <CustomNavLink path='/dashboard/statistics' elements='Statistics' icon={BsGraphUp}></CustomNavLink>
+              {role==='guest' && <div>
+                <CustomNavLink path='my-booking' elements='My Booking' icon={MdLibraryBooks }></CustomNavLink>
+                <CustomNavLink path='manage-booking' elements='Manage Booking' icon={SiGoogletagmanager  }></CustomNavLink>
+                </div>}
               {role === 'host' && <div>
                 {/* Add Room */}
                 <CustomNavLink path='add-room' elements='Add Room' icon={BsFillHouseAddFill}></CustomNavLink>
@@ -133,9 +138,9 @@ const Sidebar = () => {
                 <CustomNavLink path='/dashboard/user-management' elements='User Managements' icon={FaUsers}></CustomNavLink>
               </div>}
               {
-                role === 'guest' && <div className='flex items-center gap-2 ml-1'>
-                  <GrUserManager />
-                  <button onClick={handleHostRequest} className='btn text-neutral-900 font-medium  text-base '>Become a Host</button></div>
+                role === 'guest' && <div className='flex items-center gap-2 ml-4'>
+                  <GrUserManager className='w-5 h-5' />
+                  <button onClick={handleHostRequest} className='btn text-gray-700 font-medium  text-base'>Become a Host</button></div>
               }
 
             </nav>
