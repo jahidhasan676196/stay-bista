@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 import useAuth from '../../../hooks/useAuth'
 
-import useAxiosCommon from '../../../hooks/useAxiosCommon'
 import Swal from 'sweetalert2'
 import useRole from '../../../hooks/useRole'
+import useAxiosSecure from '../../../hooks/useAxiosSecure'
 
 
 const Navbar = () => {
   const { user,setUser ,logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
   const [role]=useRole()
-  const axiosCommon=useAxiosCommon()
+  const axiosSecure=useAxiosSecure()
   
 const handleLogOut=()=>{
   logOut()
@@ -33,7 +33,7 @@ const handleHost=async()=>{
   const info={
     status:'requested'
   }
-  const res=await axiosCommon.patch(`/user/${user?.email}`,info)
+  const res=await axiosSecure.patch(`/user/${user?.email}`,info)
   console.log(res.data.modifiedCount >0);
   if(res.data.modifiedCount > 0){
     Swal.fire({

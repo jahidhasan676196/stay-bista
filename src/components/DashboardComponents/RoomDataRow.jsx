@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import { format } from 'date-fns'
-import useAxiosCommon from '../../hooks/useAxiosCommon'
+
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
 
 const RoomDataRow = ({ room, refetch }) => {
-    const axiosCommon=useAxiosCommon()
+  const axiosSecure=useAxiosSecure()
     const handleDeleteRoom=async(id)=>{
         Swal.fire({
             title: "Are you sure?",
@@ -17,7 +18,7 @@ const RoomDataRow = ({ room, refetch }) => {
             confirmButtonText: "Yes, delete it!"
           }).then(async(result) => {
             if (result.isConfirmed) {
-                const res=await axiosCommon.delete(`/room/delete/${id}`)
+                const res=await axiosSecure.delete(`/room/delete/${id}`)
                 if(res.data.deletedCount >0){
                     refetch()
                     Swal.fire({

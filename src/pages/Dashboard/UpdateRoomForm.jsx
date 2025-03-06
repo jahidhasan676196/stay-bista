@@ -3,20 +3,17 @@ import { DateRange } from 'react-date-range';
 import { useState } from 'react'
 import axios from 'axios';
 // import useAxiosSecure from '../../hooks/useAxiosSecure';
-import useAxiosCommon from '../../hooks/useAxiosCommon';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import { categories } from '../../components/Categories/CategoriesData';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 const UpdateRoomForm = () => {
     const [room,setRoom]=useState(null)
     const params=useParams()
-    // console.log(params.id);
     const {user}=useAuth()
-    // console.log(user);
-    // const axiosSecure=useAxiosSecure()
-    const axiosCommon = useAxiosCommon()
+    const axiosSecure=useAxiosSecure()
     const [state, setState] = useState([
         {
             startDate: new Date(),
@@ -25,13 +22,13 @@ const UpdateRoomForm = () => {
         }
     ]);
     useEffect(()=>{
-        axiosCommon.get(`/room/${params.id}`)
+        axiosSecure.get(`/room/${params.id}`)
         .then(res=>{
             // console.log(res.data);
             setRoom(res.data)
         })
         
-    },[axiosCommon,params.id])
+    },[axiosSecure,params.id])
     const handleAddroom = async (e) => {
         e.preventDefault()
         const form = e.target
@@ -53,7 +50,7 @@ const UpdateRoomForm = () => {
         console.log(res.data.data.url);
         const info = { location, title, category, image: res.data.data.url, price, guests,host, bedrooms, bathrooms, description, to, from }
         if (res.data.data.url) {
-            const res = await axiosCommon.put(`/rooms/${params?.id}`, info)
+            const res = await axiosSecure.put(`/rooms/${params?.id}`, info)
             console.log(res.data.modifiedCount);
             if(res.data.modifiedCount >0){
                 Swal.fire({

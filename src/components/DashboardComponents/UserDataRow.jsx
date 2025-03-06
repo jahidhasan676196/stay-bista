@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types'
 import Swal from 'sweetalert2';
-import useAxiosCommon from '../../hooks/useAxiosCommon';
+
 import useRole from '../../hooks/useRole';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 const UserDataRow = ({ user, refetch }) => {
-    const axiosCommon=useAxiosCommon()
+    
+    const axiosSecure=useAxiosSecure()
     const [role]=useRole()
     const handleUpdateUser=async(id)=>{
         console.log(id);
@@ -20,7 +22,7 @@ const UserDataRow = ({ user, refetch }) => {
             inputValidator: async(value) => {
                 console.log(value);
                 if(value){
-                    const res=await axiosCommon.patch(`/users/updateRole/${id}`,{value})
+                    const res=await axiosSecure.patch(`/users/updateRole/${id}`,{value})
                     console.log(res.data.modifiedCount);
                     if(res.data.modifiedCount >0){
                         refetch()

@@ -1,20 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
 
-import useAxiosCommon from './useAxiosCommon';
 import useAuth from './useAuth';
+import useAxiosSecure from './useAxiosSecure';
+
+
 
 const   useMyListing = () => {
-    const {user,loading}=useAuth()
-    const axiosCommon=useAxiosCommon()
-    const {data:listing=[], refetch}=useQuery({
-        enabled:user?.email && !loading,
-        queryKey:[axiosCommon,user?.email],
+    
+    const axiosSecure=useAxiosSecure()
+
+    const {user}=useAuth()
+    const {data:my_addData = [], refetch}=useQuery({
+        queryKey:['listing',user?.email],
         queryFn:async()=>{
-            const res=await axiosCommon.get(`/listing/${user?.email}`)
+            const res=await axiosSecure.get(`/listing/${user?.email}`)
             return res.data
         }
+        
     })
-    return [listing,refetch]
+
+    return [my_addData,refetch]
 };
 
 export default useMyListing;

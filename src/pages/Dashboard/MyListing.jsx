@@ -7,8 +7,8 @@ import useRole from '../../hooks/useRole';
 
 
 const MyListings = () => {
-    const [listing,refetch]=useMyListing()
-    console.log(listing);
+    const [my_addData,refetch]=useMyListing()
+    console.log(my_addData);
     const [role]=useRole()
     console.log(role);
   return (
@@ -70,7 +70,7 @@ const MyListings = () => {
                 </thead>
                 <tbody>{/* Room row data */}
                     {
-                        listing.map(room=><RoomDataRow key={room._id} room={room} refetch={refetch}></RoomDataRow>)
+                        my_addData.map(room=><RoomDataRow key={room._id} room={room} refetch={refetch}></RoomDataRow>)
                     }
                 </tbody>
               </table>

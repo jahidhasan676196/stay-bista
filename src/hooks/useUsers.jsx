@@ -1,13 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosCommon from "./useAxiosCommon";
+import useAxiosSecure from "./useAxiosSecure";
+import useRole from "./useRole";
+import useAuth from "./useAuth";
 
 
 const useUsers = () => {
-    const axiosCommon=useAxiosCommon()
+    const [role]=useRole()
+    const {loading}=useAuth()
+    const axiosSecure=useAxiosSecure()
     const {data:users=[],refetch}=useQuery({
-        queryKey:[axiosCommon],
+        enabled:role==='admin' && !loading,
+        queryKey:[axiosSecure],
         queryFn:async()=>{
-            const res=await axiosCommon.get('/users')
+            const res=await axiosSecure.get('/users')
             return res.data
         }
     })

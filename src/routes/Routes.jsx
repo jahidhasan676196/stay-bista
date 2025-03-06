@@ -13,6 +13,8 @@ import MyListings from '../pages/Dashboard/MyListing'
 import UpdateRoomForm from '../pages/Dashboard/UpdateRoomForm'
 import UserManagements from '../pages/Dashboard/UserManagements'
 import Profile from '../pages/Dashboard/Profile'
+import AdminRoutes from './AdminRoutes'
+import HostRoutes from './HostRoutes'
 
 export const router = createBrowserRouter([
   {
@@ -29,34 +31,34 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><RoomDetails /></PrivateRoute>,
       },
     ],
-  }, 
+  },
   {
-    path:'/dashboard',
-    element:<DashboardLayout></DashboardLayout>,
-    children:[
+    path: '/dashboard',
+    element: <DashboardLayout></DashboardLayout>,
+    children: [
       {
-        path:'statistics',
-        element:<HostStatistics></HostStatistics>
+        path: 'statistics',
+        element: <PrivateRoute><HostStatistics></HostStatistics></PrivateRoute>
       },
       {
-        path:'add-room',
-        element:<Addroom></Addroom>
+        path: 'add-room',
+        element: <PrivateRoute><HostRoutes><Addroom></Addroom></HostRoutes></PrivateRoute>
       },
       {
-        path:'my-listings/updateRoom/:id',
-        element:<UpdateRoomForm></UpdateRoomForm>
+        path: 'my-listings/updateRoom/:id',
+        element: <UpdateRoomForm></UpdateRoomForm>
       },
       {
-        path:'my-listings',
-        element:<MyListings></MyListings>
+        path: 'my-listings',
+        element: <PrivateRoute><HostRoutes> <MyListings></MyListings></HostRoutes></PrivateRoute>
       },
       {
-        path:'user-management',
-        element:<UserManagements></UserManagements>
+        path: 'user-management',
+        element: <PrivateRoute><AdminRoutes><UserManagements></UserManagements></AdminRoutes></PrivateRoute>
       },
       {
-        path:'profile',
-        element:<Profile></Profile>
+        path: 'profile',
+        element: <PrivateRoute><Profile></Profile></PrivateRoute>
       }
     ]
   },

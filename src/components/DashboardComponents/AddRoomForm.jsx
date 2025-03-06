@@ -3,12 +3,14 @@ import { categories } from '../Categories/CategoriesData'
 import { useState } from 'react'
 import axios from 'axios';
 // import useAxiosSecure from '../../hooks/useAxiosSecure';
-import useAxiosCommon from '../../hooks/useAxiosCommon';
+
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 const AddRoomForm = () => {
+    const axiosSecure=useAxiosSecure()
     const {user}=useAuth()
-    const axiosCommon = useAxiosCommon()
+   
     const [state, setState] = useState([
         {
             startDate: new Date(),
@@ -37,7 +39,7 @@ const AddRoomForm = () => {
         console.log(res.data.data.url);
         const info = { location, title, category, image: res.data.data.url, price, guests,host, bedrooms, bathrooms, description, to, from }
         if (res.data.data.url) {
-            const res = await axiosCommon.post('/rooms', info)
+            const res = await axiosSecure.post('/rooms', info)
  
             if(res.data.insertedId){
                 Swal.fire({
