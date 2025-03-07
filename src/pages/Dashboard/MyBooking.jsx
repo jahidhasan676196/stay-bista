@@ -1,6 +1,22 @@
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
+import BookingDataRow from './BookingDataRow'
+
+
+
 
 const MyBooking = () => {
+  const axiosSecure=useAxiosSecure()
+  const [bookings,setBookings]=useState([])
+  useEffect(()=>{
+    axiosSecure.get('/mybooking')
+    .then(res=>{
+      console.log(res.data);
+      setBookings(res.data)
+    })
+  },[])
+  
   return (
     <>
       <Helmet>
@@ -52,7 +68,10 @@ const MyBooking = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{/* Table Row Data */}</tbody>
+                <tbody>{/* Table Row Data */}
+
+                  {bookings.map(booking=><BookingDataRow key={booking._id} booking={booking}></BookingDataRow>)}
+                </tbody>
               </table>
             </div>
           </div>

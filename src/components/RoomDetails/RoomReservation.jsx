@@ -5,7 +5,7 @@ import { DateRange } from 'react-date-range';
 import { differenceInCalendarDays } from 'date-fns';
 import ReservationDetails from './ReservationDetails';
 
-const RoomReservation = ({ room }) => {
+const RoomReservation = ({ room,refetch }) => {
   let [isOpen, setIsOpen] = useState(false)
   const handlemodalOpen=()=>{
     setIsOpen(true)
@@ -49,8 +49,8 @@ const RoomReservation = ({ room }) => {
 
       <hr />
       <div className='p-4'>
-        <Button onClick={handlemodalOpen} label={'Reserve'} />
-      <ReservationDetails isOpen={isOpen} setIsOpen={setIsOpen} room={room} totalnight={totalnight}></ReservationDetails>
+        <Button disabled={room?.booked} onClick={handlemodalOpen} label={'Reserve'} />
+      <ReservationDetails isOpen={isOpen} setIsOpen={setIsOpen} room={room} totalnight={totalnight} refetch={refetch}></ReservationDetails>
       </div>
       <hr />
       <div className='p-4 flex items-center justify-between font-semibold text-lg'>

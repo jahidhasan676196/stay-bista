@@ -3,23 +3,27 @@ import { Helmet } from 'react-helmet-async'
 import RoomReservation from '../../components/RoomDetails/RoomReservation'
 import Heading from '../../components/Shared/Heading'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+
 import useAxiosSecure from '../../hooks/useAxiosSecure'
+import { useQuery } from '@tanstack/react-query'
+
 
 // single room object (Fake Data)
 
 
 const RoomDetails = () => {
-  const [room,setRoom]=useState(null)
+
   const axiosSecure=useAxiosSecure()
   const params=useParams()
-  useEffect(()=>{
-    axiosSecure.get(`/room/${params.id}`)
-    .then(res=>{
-      console.log(res.data);
-      setRoom(res.data)
-    })
-  },[axiosSecure,params])
+
+
+  const {data:room='',refetch}=useQuery({
+    queryKey:[axiosSecure],
+    queryFn:async()=>{
+      const res=await axiosSecure.get(`/room/${params.id}`)
+      return res.data
+    }
+  })
   return (
     <Container>
       <Helmet>
@@ -92,7 +96,7 @@ const RoomDetails = () => {
 
             <div className='md:col-span-3 order-first md:order-last mb-10'>
               {/* RoomReservation */}
-              <RoomReservation room={room} />
+              <RoomReservation room={room} refetch={refetch} />
             </div>
           </div>
         </div>
