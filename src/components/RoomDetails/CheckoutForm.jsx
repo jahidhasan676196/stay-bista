@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { ImSpinner9 } from "react-icons/im";
 
 const CheckoutForm = ({ setIsOpen, totalPrice ,room,refetch}) => {
     const axiosCommon = useAxiosCommon()
@@ -15,6 +17,8 @@ const CheckoutForm = ({ setIsOpen, totalPrice ,room,refetch}) => {
     const [client_secret, setClient_secret] = useState()
     const [error, setError] = useState('')
     const {user}=useAuth()
+    const [isProcessing,setProccesing]=useState(false)
+    const navigate=useNavigate()
     console.log(room);
     useEffect(() => {
         axiosCommon.post('/create-payment-intent', { totalPrice })
@@ -27,6 +31,7 @@ const CheckoutForm = ({ setIsOpen, totalPrice ,room,refetch}) => {
     const handleSubmit = async (event) => {
         // Block native form submission.
         event.preventDefault();
+        setProccesing(true)
 
         if (!stripe || !elements) {
             // Stripe.js has not loaded yet. Make sure to disable
@@ -70,7 +75,7 @@ const CheckoutForm = ({ setIsOpen, totalPrice ,room,refetch}) => {
             return
         }
         if(paymentIntent.status==='succeeded'){
-            
+            setProccesing(false)
             const bookingInfo={
                 ...room,
                 totalPrice:totalPrice,
@@ -90,6 +95,7 @@ const CheckoutForm = ({ setIsOpen, totalPrice ,room,refetch}) => {
             refetch()
             console.log(updateBooked);
             setError('')
+            navigate('/dashboard/my-booking')
             // event.target.reset()
         }
         console.log(paymentIntent.status);
@@ -116,7 +122,7 @@ const CheckoutForm = ({ setIsOpen, totalPrice ,room,refetch}) => {
                     }}
                 />
                 <div className="flex gap-4">
-                    <button className='btn bg-green-500 py-2 px-3 rounded-md text-white font-medium' onClick={handleSubmit}>Payment</button>
+                    <button className='btn bg-green-500 py-2 px-3 rounded-md text-white font-medium' onClick={handleSubmit}>{isProcessing ? <ImSpinner9 className="animate-spin m-auto btn" />:'Payment'}</button>
                     <button className='btn bg-red-500 py-2 px-3 rounded-md text-white font-medium' onClick={() => setIsOpen(false)}>Cancel</button>
                 </div>
             </form>

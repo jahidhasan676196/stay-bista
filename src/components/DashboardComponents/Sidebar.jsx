@@ -126,13 +126,13 @@ const Sidebar = () => {
               <CustomNavLink path='/dashboard/statistics' elements='Statistics' icon={BsGraphUp}></CustomNavLink>
               {role==='guest' && <div>
                 <CustomNavLink path='my-booking' elements='My Booking' icon={MdLibraryBooks }></CustomNavLink>
-                <CustomNavLink path='manage-booking' elements='Manage Booking' icon={SiGoogletagmanager  }></CustomNavLink>
                 </div>}
               {role === 'host' && <div>
                 {/* Add Room */}
                 <CustomNavLink path='add-room' elements='Add Room' icon={BsFillHouseAddFill}></CustomNavLink>
                 {/* My Listing */}
                 <CustomNavLink path='my-listings' elements='My Listings' icon={MdHomeWork}></CustomNavLink>
+                <CustomNavLink path='manage-booking' elements='Manage Booking' icon={SiGoogletagmanager}></CustomNavLink>
               </div>}
               {role === 'admin' && <div>
                 <CustomNavLink path='/dashboard/user-management' elements='User Managements' icon={FaUsers}></CustomNavLink>

@@ -1,44 +1,40 @@
 import { format } from 'date-fns'
 import PropTypes from 'prop-types'
-// import { useState } from 'react'
-// import DeleteModal from '../../Modal/DeleteModal'
-// import useAxiosSecure from '../../../hooks/useAxiosSecure'
-// import { useMutation } from '@tanstack/react-query'
-// import toast from 'react-hot-toast'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
+import Swal from 'sweetalert2'
+import { CgProfile } from "react-icons/cg";
+
+
 
 const BookingDataRow = ({ booking, refetch }) => {
-//   const axiosSecure = useAxiosSecure()
-//   const [isOpen, setIsOpen] = useState(false)
-//   const closeModal = () => {
-//     setIsOpen(false)
-//   }
+  const axiosSecure = useAxiosSecure()
+  const handleDeleteBooking = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axiosSecure.delete(`/my-booking/${id}`)
+        console.log(data);
+        const { data: updateStatus } = await axiosSecure.patch(`/my-booking/${booking?.roomId}`)
+        console.log(updateStatus);
+        if (data.deletedCount > 0) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+          });
+          refetch()
+        }
+      }
+    });
 
-  //   delete
-//   const { mutateAsync } = useMutation({
-//     mutationFn: async id => {
-//       const { data } = await axiosSecure.delete(`/booking/${id}`)
-//       return data
-//     },
-//     onSuccess: async data => {
-//       console.log(data)
-//       refetch()
-//       toast.success('Booking Canceled')
-//       //   Change Room booked status back to false
-//       await axiosSecure.patch(`/room/status/${booking?.roomId}`, {
-//         status: false,
-//       })
-//     },
-//   })
-
-  //  Handle Delete
-//   const handleDelete = async id => {
-//     console.log(id)
-//     try {
-//       await mutateAsync(id)
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   }
+  }
 
   return (
     <tr>
@@ -62,16 +58,17 @@ const BookingDataRow = ({ booking, refetch }) => {
         <div className='flex items-center'>
           <div className='flex-shrink-0'>
             <div className='block relative'>
-              <img
+              {booking?.guest?.image ?  <img
                 alt='profile'
                 src={booking?.guest?.image}
                 className='mx-auto object-cover rounded h-10 w-15 '
-              />
+              />:<CgProfile size={35}></CgProfile>}
+             
             </div>
           </div>
           <div className='ml-3'>
             <p className='text-gray-900 whitespace-no-wrap'>
-              {booking?.guest?.name}
+              {booking?.guest?.email}
             </p>
           </div>
         </div>
@@ -91,7 +88,7 @@ const BookingDataRow = ({ booking, refetch }) => {
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <button
-        //   onClick={() => setIsOpen(true)}
+          onClick={() => handleDeleteBooking(booking?._id)}
           className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
         >
           <span
@@ -100,13 +97,7 @@ const BookingDataRow = ({ booking, refetch }) => {
           ></span>
           <span className='relative'>Cancel</span>
         </button>
-        {/* Delete Modal */}
-        {/* <DeleteModal
-          handleDelete={handleDelete}
-          closeModal={closeModal}
-          isOpen={isOpen}
-          id={booking?._id}
-        /> */}
+
       </td>
     </tr>
   )

@@ -10,7 +10,7 @@ const useUsers = () => {
     const axiosSecure=useAxiosSecure()
     const {data:users=[],refetch}=useQuery({
         enabled:role==='admin' && !loading,
-        queryKey:[axiosSecure],
+        queryKey:['users'],
         queryFn:async()=>{
             const res=await axiosSecure.get('/users')
             return res.data
