@@ -1,26 +1,23 @@
 import { Calendar } from 'react-date-range'
-import { FaDollarSign } from 'react-icons/fa'
+import { FaUserAlt, FaDollarSign } from 'react-icons/fa'
 import { BsFillCartPlusFill, BsFillHouseDoorFill } from 'react-icons/bs'
-import { GiPlayerTime } from 'react-icons/gi'
-import useAuth from '../../hooks/useAuth'
 import useAxiosSecure from '../../hooks/useAxiosSecure'
-import {useQuery} from '@tanstack/react-query'
-import HostLineChart from '../../components/DashboardComponents/Chart/HostLineChart'
+import { useQuery } from '@tanstack/react-query'
+import AdminLineChart from '../../components/DashboardComponents/Chart/AdminLineChart'
 
 
-const HostStatistics = () => {
-  const {user}=useAuth()
+const AdminStatistics = () => {
+  // Fetch Admin Stat Data here
+
   const axiosSecure=useAxiosSecure()
-
-
-  const {data:hostInformation={}}=useQuery({
-    queryKey:['host-statistics',user?.email],
+  const {data:adminInformation={}}=useQuery({
+    queryKey:['admin-statistics'],
     queryFn:async()=>{
-      const {data}=await axiosSecure.get(`/host-statistics/${user?.email}`)
-      return data
+        const {data}=await axiosSecure.get('/admin-statistics')
+        return data
     }
   })
-  console.log(hostInformation);
+  console.log(adminInformation);
   return (
     <div>
       <div className='mt-12'>
@@ -29,7 +26,7 @@ const HostStatistics = () => {
           {/* Sales Card */}
           <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md'>
             <div
-              className={`bg-clip-border mx-4 rounded-xl  bg-gradient-to-tr shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-orange-600 to-orange-400 text-white shadow-orange-500/40`}
+              className={`bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-orange-600 to-orange-400 text-white shadow-orange-500/40`}
             >
               <FaDollarSign className='w-6 h-6 text-white' />
             </div>
@@ -38,11 +35,26 @@ const HostStatistics = () => {
                 Total Sales
               </p>
               <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
-                ${hostInformation?.totalAmount}
+                ${adminInformation?.totalSales}
               </h4>
             </div>
           </div>
-
+          {/* Users Card */}
+          <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md'>
+            <div
+              className={`bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-green-600 to-green-400 text-white shadow-green-500/40`}
+            >
+              <FaUserAlt className='w-6 h-6 text-white' />
+            </div>
+            <div className='p-4 text-right'>
+              <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
+                Total User
+              </p>
+              <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
+                {adminInformation?.totalUser}
+              </h4>
+            </div>
+          </div>
           {/* Total Bookings */}
           <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md'>
             <div
@@ -55,7 +67,7 @@ const HostStatistics = () => {
                 Total Bookings
               </p>
               <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
-                {hostInformation?.totalBookings}
+                {adminInformation?.totalBooking}
               </h4>
             </div>
           </div>
@@ -71,24 +83,7 @@ const HostStatistics = () => {
                 Total Rooms
               </p>
               <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
-                {hostInformation?.totalRooms}
-              </h4>
-            </div>
-          </div>
-
-          {/* Users Card */}
-          <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md'>
-            <div
-              className={`bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-green-600 to-green-400 text-white shadow-green-500/40`}
-            >
-              <GiPlayerTime className='w-6 h-6 text-white' />
-            </div>
-            <div className='p-4 text-right'>
-              <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
-                Host Since...
-              </p>
-              <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
-                3 Days
+                {adminInformation?.totalRooms}
               </h4>
             </div>
           </div>
@@ -98,7 +93,7 @@ const HostStatistics = () => {
           {/* Total Sales Graph */}
           <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden xl:col-span-2'>
             {/* Render Chart Here */}
-            <HostLineChart></HostLineChart>
+            <AdminLineChart></AdminLineChart>
           </div>
           {/* Calender */}
           <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden'>
@@ -110,4 +105,4 @@ const HostStatistics = () => {
   )
 }
 
-export default HostStatistics
+export default AdminStatistics
